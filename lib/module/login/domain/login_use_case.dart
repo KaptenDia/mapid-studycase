@@ -1,4 +1,4 @@
-import 'package:baseproject_flutter/module/login/data/model/login_req.dart';
+import 'package:mapid/module/login/data/model/login_req.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../helper/api/result_resp.dart';

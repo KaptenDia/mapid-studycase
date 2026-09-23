@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "baseproject_flutter" "\0"
+            VALUE "CompanyName", "com.mapid" "\0"
+            VALUE "FileDescription", "mapid" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "baseproject_flutter" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "baseproject_flutter.exe" "\0"
-            VALUE "ProductName", "Base App" "\0"
+            VALUE "InternalName", "mapid" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.mapid. All rights reserved." "\0"
+            VALUE "OriginalFilename", "mapid.exe" "\0"
+            VALUE "ProductName", "MAPID" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

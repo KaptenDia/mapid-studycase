@@ -16,7 +16,7 @@ if (hasKeystore) {
 }
 
 android {
-    namespace = "com.example.baseproject"
+    namespace = "com.mapid"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -31,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.baseproject"
+        applicationId = "com.mapid"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

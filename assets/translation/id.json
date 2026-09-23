@@ -72,7 +72,7 @@
     "registerFailed": "Registrasi gagal. Silakan coba lagi."
   },
   "onboarding": {
-    "title": "Selamat Datang di Base Project",
+    "title": "Selamat Datang di MAPID",
     "description": "Template Flutter yang terstruktur, fleksibel, dilengkapi Riverpod, Clean Architecture, dan beragam utilitas.",
     "nextStep": "Mulai Sekarang",
     "language": "Bahasa"

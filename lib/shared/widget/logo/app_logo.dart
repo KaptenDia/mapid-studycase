@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/themes/app_text_style.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/themes/app_text_style.dart';
 
 enum LogoSize {
   small,

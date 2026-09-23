@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/themes/app_text_style.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/themes/app_text_style.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
 
 class LanguageOption {
   final String code;

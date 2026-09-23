@@ -1,4 +1,4 @@
-import 'package:baseproject_flutter/module/notification/presentation/notification_state.dart';
+import 'package:mapid/module/notification/presentation/notification_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notification_provider.g.dart';
@@ -32,7 +32,7 @@ class NotificationNotifier extends _$NotificationNotifier {
 const _dummyNotifications = [
   NotificationItem(
     id: '1',
-    title: 'Welcome to Base Project',
+    title: 'Welcome to MAPID',
     message: 'Explore all the customizable components and architectural setup.',
     timeAgo: '5m ago',
     type: NotificationType.system,

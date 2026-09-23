@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/widget/logo/app_logo.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/widget/logo/app_logo.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Widget? leading;

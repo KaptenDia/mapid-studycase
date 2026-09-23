@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:baseproject_flutter/module/login/data/model/login_resp.dart';
+import 'package:mapid/module/login/data/model/login_resp.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:injectable/injectable.dart';
 

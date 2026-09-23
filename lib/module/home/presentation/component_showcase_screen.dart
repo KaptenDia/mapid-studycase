@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/shared/themes/themes.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
-import 'package:baseproject_flutter/shared/widget/custom_appbar.dart';
-import 'package:baseproject_flutter/shared/widget/form/custom_form_field.dart';
-import 'package:baseproject_flutter/shared/widget/modal/default_modal.dart';
-import 'package:baseproject_flutter/shared/widget/modal/language_modal.dart';
-import 'package:baseproject_flutter/shared/widget/modal/success_modal.dart';
-import 'package:baseproject_flutter/shared/widget/toast.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/shared/themes/themes.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/widget/custom_appbar.dart';
+import 'package:mapid/shared/widget/form/custom_form_field.dart';
+import 'package:mapid/shared/widget/modal/default_modal.dart';
+import 'package:mapid/shared/widget/modal/language_modal.dart';
+import 'package:mapid/shared/widget/modal/success_modal.dart';
+import 'package:mapid/shared/widget/toast.dart';
 
 class ComponentShowcaseScreen extends StatefulWidget {
   const ComponentShowcaseScreen({super.key});

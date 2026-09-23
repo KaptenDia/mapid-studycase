@@ -11,7 +11,7 @@ Future<PackageInfo> packageInfo(Ref ref) {
 @riverpod
 Future<String> appVersionLabel(Ref ref) async {
   final info = await ref.watch(packageInfoProvider.future);
-  final name = info.appName.isNotEmpty ? info.appName : 'Base App';
+  final name = info.appName.isNotEmpty ? info.appName : 'MAPID';
   return '$name v${info.version}';
 }
 

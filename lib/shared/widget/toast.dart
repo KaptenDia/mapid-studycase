@@ -1,4 +1,4 @@
-import 'package:baseproject_flutter/shared/themes/themes.dart';
+import 'package:mapid/shared/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

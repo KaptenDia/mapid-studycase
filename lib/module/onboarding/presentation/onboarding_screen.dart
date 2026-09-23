@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/const/image.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/themes/app_text_style.dart';
-import 'package:baseproject_flutter/module/auth/presentation/auth_landing_screen.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/modal/language_modal.dart';
+import 'package:mapid/const/image.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/themes/app_text_style.dart';
+import 'package:mapid/module/auth/presentation/auth_landing_screen.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/modal/language_modal.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../config/dio/auth_interceptor.dart';
 import '../../const/url.dart';
 import '../../flavors.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
+import 'package:mapid/helper/navigator.dart';
 
 @lazySingleton
 class ApiClient {

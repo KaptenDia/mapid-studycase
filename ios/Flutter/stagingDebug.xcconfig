@@ -2,5 +2,5 @@
 #include "Generated.xcconfig"
 
 ASSET_PREFIX=staging
-BUNDLE_NAME=Base App Stg
-BUNDLE_DISPLAY_NAME=Base App Stg
+BUNDLE_NAME=MAPID Stg
+BUNDLE_DISPLAY_NAME=MAPID Stg

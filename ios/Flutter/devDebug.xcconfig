@@ -2,5 +2,5 @@
 #include "Generated.xcconfig"
 
 ASSET_PREFIX=dev
-BUNDLE_NAME=Base App Dev
-BUNDLE_DISPLAY_NAME=Base App Dev
+BUNDLE_NAME=MAPID Dev
+BUNDLE_DISPLAY_NAME=MAPID Dev

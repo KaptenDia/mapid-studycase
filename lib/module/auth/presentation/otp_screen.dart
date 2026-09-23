@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/module/home/presentation/home_screen.dart';
-import 'package:baseproject_flutter/shared/themes/themes.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/module/home/presentation/home_screen.dart';
+import 'package:mapid/shared/themes/themes.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});

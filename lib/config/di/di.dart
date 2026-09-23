@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:baseproject_flutter/config/di/di.config.dart';
+import 'package:mapid/config/di/di.config.dart';
 
 final getIt = GetIt.instance;
 

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:baseproject_flutter/helper/string_display_helper.dart';
-import 'package:baseproject_flutter/helper/validator_helper.dart';
-import 'package:baseproject_flutter/shared/widget/logo/app_logo.dart';
+import 'package:mapid/helper/string_display_helper.dart';
+import 'package:mapid/helper/validator_helper.dart';
+import 'package:mapid/shared/widget/logo/app_logo.dart';
 
 void main() {
   group('Helper Unit Tests', () {

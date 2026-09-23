@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:baseproject_flutter/module/register/data/model/register_resp.dart';
+import 'package:mapid/module/register/data/model/register_resp.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:injectable/injectable.dart';
 

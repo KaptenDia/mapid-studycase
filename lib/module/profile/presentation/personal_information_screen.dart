@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:baseproject_flutter/helper/validator_helper.dart';
-import 'package:baseproject_flutter/module/profile/presentation/personal_info_provider.dart';
-import 'package:baseproject_flutter/shared/themes/themes.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
-import 'package:baseproject_flutter/shared/widget/custom_appbar.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/shared/widget/form/custom_form_field.dart';
+import 'package:mapid/helper/validator_helper.dart';
+import 'package:mapid/module/profile/presentation/personal_info_provider.dart';
+import 'package:mapid/shared/themes/themes.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/widget/custom_appbar.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/shared/widget/form/custom_form_field.dart';
 
 class PersonalInformationScreen extends ConsumerStatefulWidget {
   const PersonalInformationScreen({super.key});

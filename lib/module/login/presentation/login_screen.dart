@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/helper/validator_helper.dart';
-import 'package:baseproject_flutter/module/auth/presentation/forgot_password_screen.dart';
-import 'package:baseproject_flutter/module/home/presentation/home_screen.dart';
-import 'package:baseproject_flutter/module/login/domain/login_state.dart';
-import 'package:baseproject_flutter/module/login/presentation/login_provider.dart';
-import 'package:baseproject_flutter/module/register/presentation/register_screen.dart';
-import 'package:baseproject_flutter/shared/themes/themes.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
-import 'package:baseproject_flutter/shared/widget/form/custom_form_field.dart';
-import 'package:baseproject_flutter/shared/widget/logo/app_logo.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/helper/validator_helper.dart';
+import 'package:mapid/module/auth/presentation/forgot_password_screen.dart';
+import 'package:mapid/module/home/presentation/home_screen.dart';
+import 'package:mapid/module/login/domain/login_state.dart';
+import 'package:mapid/module/login/presentation/login_provider.dart';
+import 'package:mapid/module/register/presentation/register_screen.dart';
+import 'package:mapid/shared/themes/themes.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/widget/form/custom_form_field.dart';
+import 'package:mapid/shared/widget/logo/app_logo.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

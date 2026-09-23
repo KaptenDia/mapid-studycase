@@ -1,4 +1,4 @@
-import 'package:baseproject_flutter/module/register/data/model/register_req.dart';
+import 'package:mapid/module/register/data/model/register_req.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../helper/api/result_resp.dart';

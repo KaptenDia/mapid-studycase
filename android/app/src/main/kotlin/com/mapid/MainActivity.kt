@@ -1,4 +1,4 @@
-package com.example.baseproject
+package com.mapid
 
 import io.flutter.embedding.android.FlutterActivity
 

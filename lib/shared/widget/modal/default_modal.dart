@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
 
 import '../../../config/di/di.dart';
 import '../../../helper/navigator.dart';

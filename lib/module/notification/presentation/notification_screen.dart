@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/module/notification/presentation/notification_provider.dart';
-import 'package:baseproject_flutter/module/notification/presentation/notification_state.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/widget/custom_appbar.dart';
+import 'package:mapid/module/notification/presentation/notification_provider.dart';
+import 'package:mapid/module/notification/presentation/notification_state.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/widget/custom_appbar.dart';
 
 class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});

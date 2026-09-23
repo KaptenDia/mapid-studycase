@@ -1,11 +1,11 @@
 {
-    "name": "Base App",
-    "short_name": "BaseApp",
+    "name": "MAPID",
+    "short_name": "MAPID",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0052D0",
     "theme_color": "#0052D0",
-    "description": "Universal Flutter Base Project.",
+    "description": "MAPID Mobile Application.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

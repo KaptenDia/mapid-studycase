@@ -1,5 +1,5 @@
-name: baseproject_flutter
-description: "A flexible and robust Flutter base project."
+name: mapid
+description: "MAPID Mobile Application."
 publish_to: "none"
 version: 1.0.0+1
 
@@ -90,22 +90,22 @@ flavorizr:
   flavors:
     dev:
       app:
-        name: "Base App Dev"
+        name: "MAPID Dev"
       android:
-        applicationId: "com.example.baseproject.dev"
+        applicationId: "com.mapid.dev"
       ios:
-        bundleId: "com.example.baseproject.dev"
+        bundleId: "com.mapid.dev"
     staging:
       app:
-        name: "Base App Stg"
+        name: "MAPID Stg"
       android:
-        applicationId: "com.example.baseproject.staging"
+        applicationId: "com.mapid.staging"
       ios:
-        bundleId: "com.example.baseproject.staging"
+        bundleId: "com.mapid.staging"
     prod:
       app:
-        name: "Base App"
+        name: "MAPID"
       android:
-        applicationId: "com.example.baseproject"
+        applicationId: "com.mapid"
       ios:
-        bundleId: "com.example.baseproject"
+        bundleId: "com.mapid"

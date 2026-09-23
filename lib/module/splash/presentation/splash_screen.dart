@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:baseproject_flutter/module/onboarding/presentation/onboarding_screen.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/shared/widget/logo/app_logo.dart';
+import 'package:mapid/module/onboarding/presentation/onboarding_screen.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/shared/widget/logo/app_logo.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 

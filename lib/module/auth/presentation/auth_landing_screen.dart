@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/module/login/presentation/login_screen.dart';
-import 'package:baseproject_flutter/module/register/presentation/register_screen.dart';
-import 'package:baseproject_flutter/shared/themes/themes.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/button/custom_button.dart';
-import 'package:baseproject_flutter/shared/widget/logo/app_logo.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/module/login/presentation/login_screen.dart';
+import 'package:mapid/module/register/presentation/register_screen.dart';
+import 'package:mapid/shared/themes/themes.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/button/custom_button.dart';
+import 'package:mapid/shared/widget/logo/app_logo.dart';
 
 class AuthLandingScreen extends StatelessWidget {
   const AuthLandingScreen({super.key});

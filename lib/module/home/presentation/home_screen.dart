@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
-import 'package:baseproject_flutter/module/home/presentation/component_showcase_screen.dart';
-import 'package:baseproject_flutter/module/home/presentation/home_bottom_navbar.dart';
-import 'package:baseproject_flutter/module/home/presentation/home_provider.dart';
-import 'package:baseproject_flutter/module/notification/presentation/notification_provider.dart';
-import 'package:baseproject_flutter/module/notification/presentation/notification_screen.dart';
-import 'package:baseproject_flutter/module/profile/presentation/profile_screen.dart';
-import 'package:baseproject_flutter/shared/themes/app_colors.dart';
-import 'package:baseproject_flutter/shared/themes/app_text_style.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
-import 'package:baseproject_flutter/shared/widget/custom_appbar.dart';
-import 'package:baseproject_flutter/shared/widget/toast.dart';
+import 'package:mapid/helper/navigator.dart';
+import 'package:mapid/module/home/presentation/component_showcase_screen.dart';
+import 'package:mapid/module/home/presentation/home_bottom_navbar.dart';
+import 'package:mapid/module/home/presentation/home_provider.dart';
+import 'package:mapid/module/notification/presentation/notification_provider.dart';
+import 'package:mapid/module/notification/presentation/notification_screen.dart';
+import 'package:mapid/module/profile/presentation/profile_screen.dart';
+import 'package:mapid/shared/themes/app_colors.dart';
+import 'package:mapid/shared/themes/app_text_style.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/widget/custom_appbar.dart';
+import 'package:mapid/shared/widget/toast.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -122,7 +122,7 @@ class _HomeBody extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
-                              'BASE PROJECT',
+                              'MAPID',
                               style: AppTextStyle.tiny.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

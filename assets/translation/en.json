@@ -72,7 +72,7 @@
     "registerFailed": "Registration failed. Please try again."
   },
   "onboarding": {
-    "title": "Welcome to Base Project",
+    "title": "Welcome to MAPID",
     "description": "A scalable, feature-first Flutter template equipped with Riverpod, Clean Architecture, and rich utilities.",
     "nextStep": "Get Started",
     "language": "Language"

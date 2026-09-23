@@ -1,15 +1,15 @@
 import 'package:flutter/services.dart';
 import 'flavors.dart';
-import 'package:baseproject_flutter/module/splash/presentation/splash_screen.dart';
+import 'package:mapid/module/splash/presentation/splash_screen.dart';
 import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:baseproject_flutter/shared/translation/translation_provider.dart';
+import 'package:mapid/shared/translation/translation_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:baseproject_flutter/helper/samseer_notification_bridge.dart';
+import 'package:mapid/helper/samseer_notification_bridge.dart';
 import 'config/di/di.dart';
-import 'package:baseproject_flutter/helper/navigator.dart';
+import 'package:mapid/helper/navigator.dart';
 import 'shared/themes/themes.dart';
 import 'shared/translation/translation_service.dart';
 

@@ -8,18 +8,18 @@ android.apply {
     productFlavors {
         create("dev") {
             dimension = "flavor-type"
-            applicationId = "com.example.baseproject.dev"
-            resValue(type = "string", name = "app_name", value = "Base App Dev")
+            applicationId = "com.mapid.dev"
+            resValue(type = "string", name = "app_name", value = "MAPID Dev")
         }
         create("staging") {
             dimension = "flavor-type"
-            applicationId = "com.example.baseproject.staging"
-            resValue(type = "string", name = "app_name", value = "Base App Stg")
+            applicationId = "com.mapid.staging"
+            resValue(type = "string", name = "app_name", value = "MAPID Stg")
         }
         create("prod") {
             dimension = "flavor-type"
-            applicationId = "com.example.baseproject"
-            resValue(type = "string", name = "app_name", value = "Base App")
+            applicationId = "com.mapid"
+            resValue(type = "string", name = "app_name", value = "MAPID")
         }
     }
 }

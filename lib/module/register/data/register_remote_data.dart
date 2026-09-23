@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:baseproject_flutter/module/register/data/model/register_resp.dart';
+import 'package:mapid/module/register/data/model/register_resp.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../const/url.dart';

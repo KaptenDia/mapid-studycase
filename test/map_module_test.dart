@@ -88,6 +88,22 @@ void main() {
       expect(feat.latitude, 0.0);
       expect(feat.longitude, 0.0);
     });
+
+    test('GeoFeature sanitizes corrupted server characters and mojibake', () {
+      final corruptedJson = {
+        'type': 'Feature',
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [110.38825, -7.80976],
+        },
+        'properties': {
+          'NAMA': 'TAMAN WARUNGBOTO (ʦ\uFFFDʦ\uFFFDʦ\uFFFDʧ\uFFFDʦ\uFFFD)',
+        },
+      };
+
+      final feat = GeoFeature.fromJson(corruptedJson);
+      expect(feat.nama, 'TAMAN WARUNGBOTO');
+    });
   });
 
   group('MapState Tests', () {

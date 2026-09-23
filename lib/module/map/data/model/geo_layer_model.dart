@@ -20,11 +20,13 @@ class GeoLayerResp {
       layerId: json['layer_id']?.toString() ?? '',
       layerName: json['layer_name']?.toString() ?? '',
       type: json['type']?.toString() ?? 'FeatureCollection',
-      fields: (json['fields'] as List<dynamic>?)
+      fields:
+          (json['fields'] as List<dynamic>?)
               ?.map((e) => GeoField.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      features: (json['features'] as List<dynamic>?)
+      features:
+          (json['features'] as List<dynamic>?)
               ?.map((e) => GeoFeature.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -32,12 +34,12 @@ class GeoLayerResp {
   }
 
   Map<String, dynamic> toJson() => {
-        'layer_id': layerId,
-        'layer_name': layerName,
-        'type': type,
-        'fields': fields.map((e) => e.toJson()).toList(),
-        'features': features.map((e) => e.toJson()).toList(),
-      };
+    'layer_id': layerId,
+    'layer_name': layerName,
+    'type': type,
+    'fields': fields.map((e) => e.toJson()).toList(),
+    'features': features.map((e) => e.toJson()).toList(),
+  };
 }
 
 class GeoField {
@@ -45,11 +47,7 @@ class GeoField {
   final String name;
   final String type;
 
-  const GeoField({
-    required this.key,
-    required this.name,
-    required this.type,
-  });
+  const GeoField({required this.key, required this.name, required this.type});
 
   factory GeoField.fromJson(Map<String, dynamic> json) {
     return GeoField(
@@ -59,11 +57,7 @@ class GeoField {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'key': key,
-        'name': name,
-        'type': type,
-      };
+  Map<String, dynamic> toJson() => {'key': key, 'name': name, 'type': type};
 }
 
 class GeoFeature {
@@ -91,13 +85,21 @@ class GeoFeature {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'geometry': geometry.toJson(),
-        'properties': properties,
-      };
+    'id': id,
+    'type': type,
+    'geometry': geometry.toJson(),
+    'properties': properties,
+  };
 
-  String get nama => properties['NAMA']?.toString() ?? 'Unnamed Location';
+  String get nama {
+    final raw = properties['NAMA']?.toString() ?? 'Unnamed Location';
+    return raw
+        .replaceAll(RegExp(r'\([^)]*[\uFFFDʦʧ][^)]*\)'), '')
+        .replaceAll('\uFFFD', '')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
+
   String get alamat => properties['ALAMAT']?.toString() ?? '-';
   String get provinsi => properties['PROVINSI']?.toString() ?? '';
   String get kabkot => properties['KABKOT']?.toString() ?? '';
@@ -114,10 +116,7 @@ class GeoGeometry {
   final String type;
   final List<double> coordinates;
 
-  const GeoGeometry({
-    required this.type,
-    required this.coordinates,
-  });
+  const GeoGeometry({required this.type, required this.coordinates});
 
   factory GeoGeometry.fromJson(Map<String, dynamic> json) {
     final rawCoords = json['coordinates'] as List<dynamic>? ?? [];
@@ -128,10 +127,7 @@ class GeoGeometry {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'type': type,
-        'coordinates': coordinates,
-      };
+  Map<String, dynamic> toJson() => {'type': type, 'coordinates': coordinates};
 
   double get longitude => coordinates.isNotEmpty ? coordinates[0] : 0.0;
   double get latitude => coordinates.length > 1 ? coordinates[1] : 0.0;

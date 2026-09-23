@@ -1,6 +1,6 @@
-# Flutter Base Project
+# MAPID Mobile Application
 
-A modern, production-ready, and highly scalable Flutter starter template designed with **Feature-First Clean Architecture**, **Riverpod State Management**, and **Dependency Injection**. It is completely decoupled from any specific business domain, making it ideal for kickstarting projects with any application theme (e.g., e-commerce, fintech, corporate, healthcare, SaaS, or utility).
+A modern, production-ready, and highly scalable Flutter application designed with **Feature-First Clean Architecture**, **Riverpod State Management**, and **Dependency Injection**.
 
 ---
 

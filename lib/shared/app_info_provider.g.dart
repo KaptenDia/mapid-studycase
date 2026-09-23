@@ -79,7 +79,7 @@ final class AppVersionLabelProvider
   }
 }
 
-String _$appVersionLabelHash() => r'021d2a87efae4c9cbd815f96bb77d65ed69c2a13';
+String _$appVersionLabelHash() => r'a4ef5b45e088e8b29c96459a6aead59a6ab386be';
 
 @ProviderFor(appVersionWithBuild)
 const appVersionWithBuildProvider = AppVersionWithBuildProvider._();

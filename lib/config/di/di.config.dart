@@ -22,6 +22,9 @@ import 'package:mapid/module/login/data/login_local_data.dart' as _i120;
 import 'package:mapid/module/login/data/login_remote_data.dart' as _i557;
 import 'package:mapid/module/login/data/login_repository.dart' as _i702;
 import 'package:mapid/module/login/domain/login_use_case.dart' as _i717;
+import 'package:mapid/module/map/data/map_remote_data.dart' as _i852;
+import 'package:mapid/module/map/data/map_repository.dart' as _i483;
+import 'package:mapid/module/map/domain/map_use_case.dart' as _i118;
 import 'package:mapid/module/register/data/register_local_data.dart' as _i201;
 import 'package:mapid/module/register/data/register_remote_data.dart' as _i595;
 import 'package:mapid/module/register/data/register_repository.dart' as _i883;
@@ -54,11 +57,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i504.IAuthRepository>(
       () => _i504.AuthRepository(gh<_i120.ILoginLocalData>()),
     );
+    gh.lazySingleton<_i852.IMapRemoteData>(
+      () => _i852.MapRemoteData(gh<_i434.ApiClient>()),
+    );
     gh.lazySingleton<_i557.ILoginRemoteData>(
       () => _i557.LoginRemoteData(gh<_i434.ApiClient>()),
     );
     gh.lazySingleton<_i595.IRegisterRemoteData>(
       () => _i595.RegisterRemoteData(gh<_i434.ApiClient>()),
+    );
+    gh.lazySingleton<_i483.IMapRepository>(
+      () => _i483.MapRepository(gh<_i852.IMapRemoteData>()),
     );
     gh.lazySingleton<_i883.IRegisterRepository>(
       () => _i883.RegisterRepository(
@@ -74,6 +83,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i557.ILoginRemoteData>(),
         gh<_i120.ILoginLocalData>(),
       ),
+    );
+    gh.lazySingleton<_i118.IMapUseCase>(
+      () => _i118.MapUseCase(gh<_i483.IMapRepository>()),
     );
     gh.lazySingleton<_i717.ILoginUseCase>(
       () => _i717.LoginUseCase(gh<_i702.ILoginRepository>()),

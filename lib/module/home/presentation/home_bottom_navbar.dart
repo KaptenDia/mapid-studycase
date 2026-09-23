@@ -29,8 +29,8 @@ class HomeBottomNavBar extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _NavItem(
-                icon: Icons.home_rounded,
-                label: 'Home',
+                icon: Icons.map_rounded,
+                label: 'Peta',
                 index: 0,
                 currentIndex: currentIndex,
                 onTap: (i) =>

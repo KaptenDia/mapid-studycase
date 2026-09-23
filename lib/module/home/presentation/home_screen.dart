@@ -5,6 +5,7 @@ import 'package:mapid/helper/navigator.dart';
 import 'package:mapid/module/home/presentation/component_showcase_screen.dart';
 import 'package:mapid/module/home/presentation/home_bottom_navbar.dart';
 import 'package:mapid/module/home/presentation/home_provider.dart';
+import 'package:mapid/module/map/presentation/map_screen.dart';
 import 'package:mapid/module/notification/presentation/notification_provider.dart';
 import 'package:mapid/module/notification/presentation/notification_screen.dart';
 import 'package:mapid/module/profile/presentation/profile_screen.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   static const List<Widget> _pages = [
-    _HomeBody(),
+    MapScreen(),
     ComponentShowcaseScreen(),
     NotificationScreen(),
     ProfileScreen(),

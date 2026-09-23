@@ -1,0 +1,24 @@
+# Build configuration for code generation
+# Using default behavior: generated files in same directory as source
+
+targets:
+  $default:
+    builders:
+      # Riverpod generator configuration
+      riverpod_generator:
+        enabled: true
+          
+      # Injectable generator configuration  
+      injectable_generator:injectable_builder:
+        enabled: true
+
+# Note: To move generated files to subfolder, uncomment and modify:
+# targets:
+#   $default:
+#     builders:
+#       riverpod_generator:
+#         options:
+#           build_extensions:
+#             .dart:
+#               - generated/{{file}}.g.dart
+# Then update part directive: part 'generated/login_provider.g.dart';

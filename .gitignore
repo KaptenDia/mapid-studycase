@@ -1,0 +1,134 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# Operating System Files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+# Linux
+*~
+.directory
+
+# Environment Variables & Secrets (Never commit secrets to git)
+.env
+.env.*
+!.env.example
+*.env
+key.properties
+**/key.properties
+*.keystore
+**/*.keystore
+*.jks
+**/*.jks
+*.p12
+*.pfx
+*.mobileprovision
+*.cer
+*.der
+*.pem
+*.key
+*-private-key.json
+*-firebase-adminsdk-*.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# IDE & Editor Files
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+cmake-build-*/
+# Visual Studio Code (Keep shared team configs, ignore personal workspace states)
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+.vscode/templates
+
+# Flutter & Dart
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+pubspec_overrides.yaml
+
+# Testing & Code Coverage
+coverage/
+*.lcov
+*.lcov.info
+lcov.info
+test-results/
+
+# Build & Release Artifacts
+*.apk
+*.aab
+*.ipa
+*.ap_
+*.dex
+*.dSYM.zip
+*.dSYM
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android Specific
+.gradle/
+**/.gradle/
+.kotlin/
+**/.kotlin/
+local.properties
+**/local.properties
+captures/
+**/captures/
+.cxx/
+**/.cxx/
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# iOS & macOS Specific
+**/Pods/
+**/.symlinks/
+**/Flutter/ephemeral/
+**/Flutter/Generated.xcconfig
+**/Flutter/flutter_export_environment.sh
+**/Runner/GeneratedPluginRegistrant.*
+**/DerivedData/
+**/xcuserdata/
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots/
+**/fastlane/test_output/

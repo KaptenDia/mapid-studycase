@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
 import 'flavors.dart';
 import 'package:mapid/module/splash/presentation/splash_screen.dart';
@@ -15,6 +16,12 @@ import 'shared/translation/translation_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    debugPrint('Dotenv note: $e');
+  }
 
   F.appFlavor = Flavor.values.firstWhere(
     (element) => element.name == appFlavor,

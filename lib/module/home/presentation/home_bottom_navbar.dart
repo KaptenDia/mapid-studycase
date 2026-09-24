@@ -109,7 +109,7 @@ class _NavItem extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Icon: scale saat switch + color berubah
+                // Icon: scale on switch and color transition
                 AnimatedSwitcher(
                   duration: duration,
                   switchInCurve: curve,
@@ -123,7 +123,7 @@ class _NavItem extends StatelessWidget {
                     color: isActive ? Colors.white : Colors.grey[400],
                   ),
                 ),
-                // Label: expand/collapse dengan AnimatedSize
+                // Label: expand/collapse with AnimatedSize
                 AnimatedSize(
                   duration: duration,
                   curve: curve,

@@ -20,7 +20,7 @@ final class MapNotifierProvider
         argument: null,
         retry: null,
         name: r'mapProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -41,7 +41,7 @@ final class MapNotifierProvider
   }
 }
 
-String _$mapNotifierHash() => r'8e1c932a43b131ab9f39e5b04e940816e625243d';
+String _$mapNotifierHash() => r'5f36e4e38f83c484c801c741caf379811bf0f0db';
 
 abstract class _$MapNotifier extends $Notifier<MapState> {
   MapState build();

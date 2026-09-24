@@ -147,6 +147,27 @@ void main() {
       state = state.copyWith(clearSelectedFeature: true);
       expect(state.selectedFeature, isNull);
     });
+
+    test('MapState correctly reports hasFeatures when layerData is loaded', () {
+      const feature = GeoFeature(
+        id: '1',
+        type: 'Feature',
+        geometry: GeoGeometry(type: 'Point', coordinates: [110.368, -7.799]),
+        properties: {'NAMA': 'Malioboro'},
+      );
+      const layer = GeoLayerResp(
+        layerId: 'layer_1',
+        type: 'FeatureCollection',
+        layerName: 'Pariwisata Jogja',
+        fields: [],
+        features: [feature],
+      );
+
+      final state = const MapState().copyWith(layerData: layer);
+      expect(state.hasFeatures, true);
+      expect(state.features.length, 1);
+      expect(state.features.first.nama, 'Malioboro');
+    });
   });
 
   group('EnvConfig Tests', () {

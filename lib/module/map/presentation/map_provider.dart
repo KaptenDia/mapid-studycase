@@ -8,39 +8,53 @@ import '../domain/map_use_case.dart';
 
 part 'map_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MapNotifier extends _$MapNotifier {
   late final IMapUseCase _useCase;
+  bool _isFetching = false;
 
   @override
   MapState build() {
     _useCase = getIt<IMapUseCase>();
-    // Automatically load layer on start
-    fetchLayerData();
+    // Automatically trigger initial layer fetch when provider is initialized
+    Future.microtask(() => fetchLayerData());
     return const MapState();
   }
 
-  Future<void> fetchLayerData() async {
-    state = state.copyWith(isLoading: true, errorMessage: '');
-    final result = await _useCase.executeGetLayerData();
+  Future<void> fetchLayerData({bool force = false}) async {
+    if (_isFetching && !force) return;
+    _isFetching = true;
 
-    if (result is SuccessResp<GeoLayerResp>) {
+    state = state.copyWith(isLoading: true, errorMessage: '');
+    try {
+      final result = await _useCase.executeGetLayerData();
+
+      if (result is SuccessResp<GeoLayerResp>) {
+        state = state.copyWith(
+          isLoading: false,
+          layerData: result.data,
+          errorMessage: '',
+        );
+      } else if (result is ErrorResp) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: (result.message?.isNotEmpty ?? false)
+              ? result.message!
+              : 'Failed to load layer from GEO MAPID',
+        );
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'An unexpected error occurred',
+        );
+      }
+    } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        layerData: result.data,
+        errorMessage: e.toString(),
       );
-    } else if (result is ErrorResp) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: (result.message?.isNotEmpty ?? false)
-            ? result.message!
-            : 'Gagal memuat layer dari GEO MAPID',
-      );
-    } else {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'Terjadi kesalahan tidak terduga',
-      );
+    } finally {
+      _isFetching = false;
     }
   }
 

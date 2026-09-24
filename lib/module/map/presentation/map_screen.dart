@@ -26,6 +26,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   MapLibreMapController? _mapController;
   bool _isLocating = false;
   bool _isStyleLoaded = false;
+  bool _isPinImageLoaded = false;
+  bool _isSyncingSymbols = false;
+  bool _pendingSyncRequest = false;
   final List<Symbol> _currentSymbols = [];
 
   // Default initial camera position: Yogyakarta center
@@ -33,6 +36,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     target: LatLng(-7.799231, 110.368369),
     zoom: 13.0,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final state = ref.read(mapProvider);
+        if (!state.hasFeatures && !state.isLoading) {
+          ref.read(mapProvider.notifier).fetchLayerData();
+        }
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -45,20 +61,44 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _mapController!.onSymbolTapped.add(_onSymbolTapped);
   }
 
+  Future<void> _ensureMarkerImageLoaded() async {
+    if (_isPinImageLoaded || _mapController == null) return;
+    try {
+      final ByteData byteData = await rootBundle.load(
+        'assets/image/marker_poi.png',
+      );
+      final Uint8List bytes = byteData.buffer.asUint8List();
+      await _mapController?.addImage('poi-pin', bytes);
+      _isPinImageLoaded = true;
+    } catch (e) {
+      debugPrint('Error loading poi-pin image: $e');
+    }
+  }
+
   Future<void> _onStyleLoaded() async {
     _isStyleLoaded = true;
     ref.read(mapProvider.notifier).setMapReady(true);
 
-    try {
-      final ByteData byteData =
-          await rootBundle.load('assets/image/marker_poi.png');
-      final Uint8List bytes = byteData.buffer.asUint8List();
-      await _mapController?.addImage('poi-pin', bytes);
-    } catch (e) {
-      debugPrint('Error loading poi-pin image: $e');
-    }
+    await _ensureMarkerImageLoaded();
 
-    _syncLayerSymbols();
+    await _mapController?.setSymbolIconAllowOverlap(true);
+    await _mapController?.setSymbolIconIgnorePlacement(true);
+    await _mapController?.setSymbolTextAllowOverlap(true);
+    await _mapController?.setSymbolTextIgnorePlacement(true);
+
+    final state = ref.read(mapProvider);
+    if (state.hasFeatures) {
+      await _syncLayerSymbols();
+      if (mounted) {
+        _recenterToJogja();
+      }
+    } else if (!state.isLoading) {
+      await ref.read(mapProvider.notifier).fetchLayerData();
+      if (mounted && ref.read(mapProvider).hasFeatures) {
+        await _syncLayerSymbols();
+        _recenterToJogja();
+      }
+    }
   }
 
   void _onSymbolTapped(Symbol symbol) {
@@ -97,38 +137,83 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   Future<void> _syncLayerSymbols() async {
     if (_mapController == null || !_isStyleLoaded) return;
-
-    final state = ref.read(mapProvider);
-
-    // Clear existing symbols
-    for (final s in _currentSymbols) {
-      await _mapController?.removeSymbol(s);
+    if (_isSyncingSymbols) {
+      _pendingSyncRequest = true;
+      return;
     }
-    _currentSymbols.clear();
 
-    if (!state.isLayerVisible || !state.hasFeatures) return;
+    _isSyncingSymbols = true;
+    _pendingSyncRequest = false;
 
-    for (final feature in state.features) {
-      if (feature.latitude == 0 && feature.longitude == 0) continue;
+    try {
+      await _ensureMarkerImageLoaded();
 
-      final symbol = await _mapController?.addSymbol(
-        SymbolOptions(
-          geometry: LatLng(feature.latitude, feature.longitude),
-          iconImage: 'poi-pin',
-          iconSize: 0.6,
-          iconAnchor: 'bottom',
-          textField: feature.nama,
-          textSize: 11.0,
-          textColor: '#1A1A1A',
-          textHaloColor: '#FFFFFF',
-          textHaloWidth: 1.5,
-          textOffset: const Offset(0, 1.2),
-        ),
-        feature.toJson(),
-      );
+      final state = ref.read(mapProvider);
 
-      if (symbol != null) {
-        _currentSymbols.add(symbol);
+      // Clear existing symbols
+      try {
+        await _mapController?.clearSymbols();
+      } catch (_) {
+        for (final s in _currentSymbols) {
+          await _mapController?.removeSymbol(s);
+        }
+      }
+      _currentSymbols.clear();
+
+      if (!state.isLayerVisible || !state.hasFeatures) return;
+
+      await _mapController?.setSymbolIconAllowOverlap(true);
+      await _mapController?.setSymbolIconIgnorePlacement(true);
+      await _mapController?.setSymbolTextAllowOverlap(true);
+      await _mapController?.setSymbolTextIgnorePlacement(true);
+
+      final List<SymbolOptions> optionsList = [];
+      final List<Map<String, dynamic>> dataList = [];
+
+      for (final feature in state.features) {
+        if (feature.latitude == 0 && feature.longitude == 0) continue;
+
+        optionsList.add(
+          SymbolOptions(
+            geometry: LatLng(feature.latitude, feature.longitude),
+            iconImage: 'poi-pin',
+            iconSize: 0.65,
+            iconAnchor: 'bottom',
+            textField: feature.nama,
+            textSize: 10.5,
+            textMaxWidth: 10.0,
+            textColor: '#1A1A1A',
+            textHaloColor: '#FFFFFF',
+            textHaloWidth: 2.0,
+            textOffset: const Offset(0, 1.2),
+            zIndex: 10,
+          ),
+        );
+        dataList.add(feature.toJson());
+      }
+
+      if (optionsList.isNotEmpty) {
+        try {
+          final symbols = await _mapController?.addSymbols(optionsList, dataList);
+          if (symbols != null) {
+            _currentSymbols.addAll(symbols);
+          }
+        } catch (_) {
+          for (int i = 0; i < optionsList.length; i++) {
+            final symbol = await _mapController?.addSymbol(
+              optionsList[i],
+              dataList[i],
+            );
+            if (symbol != null) {
+              _currentSymbols.add(symbol);
+            }
+          }
+        }
+      }
+    } finally {
+      _isSyncingSymbols = false;
+      if (_pendingSyncRequest) {
+        _syncLayerSymbols();
       }
     }
   }
@@ -144,7 +229,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Layanan lokasi (GPS) tidak aktif. Mohon aktifkan GPS.'),
+              content: Text(
+                'Layanan lokasi (GPS) tidak aktif. Mohon aktifkan GPS.',
+              ),
               backgroundColor: Colors.orange,
             ),
           );
@@ -174,7 +261,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Izin lokasi ditolak permanen. Buka Pengaturan untuk mengaktifkan.'),
+              content: Text(
+                'Izin lokasi ditolak permanen. Buka Pengaturan untuk mengaktifkan.',
+              ),
               backgroundColor: Colors.redAccent,
             ),
           );
@@ -224,15 +313,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _recenterToJogja() {
     final state = ref.read(mapProvider);
-    final features = state.features;
+    final validFeatures = state.features
+        .where((f) => f.latitude != 0 && f.longitude != 0)
+        .toList();
 
-    if (features.isNotEmpty) {
-      double minLat = features.first.latitude;
-      double maxLat = features.first.latitude;
-      double minLng = features.first.longitude;
-      double maxLng = features.first.longitude;
+    if (validFeatures.isNotEmpty) {
+      double minLat = validFeatures.first.latitude;
+      double maxLat = validFeatures.first.latitude;
+      double minLng = validFeatures.first.longitude;
+      double maxLng = validFeatures.first.longitude;
 
-      for (final f in features) {
+      for (final f in validFeatures) {
         if (f.latitude < minLat) minLat = f.latitude;
         if (f.latitude > maxLat) maxLat = f.latitude;
         if (f.longitude < minLng) minLng = f.longitude;
@@ -271,7 +362,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     ref.listen<MapState>(mapProvider, (previous, next) {
       if (previous?.layerData != next.layerData ||
           previous?.isLayerVisible != next.isLayerVisible) {
-        _syncLayerSymbols();
+        if (_isStyleLoaded) {
+          _syncLayerSymbols().then((_) {
+            if (next.hasFeatures && (previous?.features.isEmpty ?? true)) {
+              if (mounted) _recenterToJogja();
+            }
+          });
+        }
       }
     });
 
@@ -315,7 +412,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               onMyLocation: _handleMyLocation,
               onRecenterLayer: _recenterToJogja,
               onToggleLayer: _toggleLayerVisibility,
-              onZoomIn: () => _mapController?.animateCamera(CameraUpdate.zoomIn()),
+              onZoomIn: () =>
+                  _mapController?.animateCamera(CameraUpdate.zoomIn()),
               onZoomOut: () =>
                   _mapController?.animateCamera(CameraUpdate.zoomOut()),
             ),
@@ -354,7 +452,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               right: 0,
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 10.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24.r),
@@ -374,7 +475,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         height: 16.w,
                         child: const CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                          valueColor: AlwaysStoppedAnimation(
+                            AppColors.primaryColor,
+                          ),
                         ),
                       ),
                       SizedBox(width: 10.w),
@@ -429,58 +532,70 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
           SizedBox(width: 10.w),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        layerName,
-                        style: AppTextStyle.subtitle.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10.r),
+              onTap: state.hasFeatures
+                  ? () => _showPoiListBottomSheet(context, state.features)
+                  : null,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          layerName,
+                          style: AppTextStyle.subtitle.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    SizedBox(width: 6.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 6.w,
-                        vertical: 2.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: state.isLayerVisible
-                            ? Colors.green.withValues(alpha: 0.12)
-                            : Colors.grey.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(6.r),
-                      ),
-                      child: Text(
-                        state.isLayerVisible
-                            ? '$featureCount POI'
-                            : 'Disembunyikan',
-                        style: TextStyle(
-                          fontSize: 10.sp,
+                      SizedBox(width: 6.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6.w,
+                          vertical: 2.h,
+                        ),
+                        decoration: BoxDecoration(
                           color: state.isLayerVisible
-                              ? Colors.green[800]
-                              : Colors.grey[700],
-                          fontWeight: FontWeight.w600,
+                              ? Colors.green.withValues(alpha: 0.12)
+                              : Colors.grey.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(6.r),
+                        ),
+                        child: Text(
+                          state.isLayerVisible
+                              ? '$featureCount POI'
+                              : 'Disembunyikan',
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            color: state.isLayerVisible
+                                ? Colors.green[800]
+                                : Colors.grey[700],
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  'OpenFreeMap Liberty • Basemap',
-                  style: AppTextStyle.tiny.copyWith(
-                    color: AppColors.textSecondary,
+                      SizedBox(width: 4.w),
+                      Icon(
+                        Icons.expand_more_rounded,
+                        size: 16.sp,
+                        color: AppColors.textSecondary,
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(height: 2.h),
+                  Text(
+                    'OpenFreeMap Liberty • Ketuk untuk lihat daftar',
+                    style: AppTextStyle.tiny.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           IconButton(
@@ -491,11 +606,200 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
             tooltip: 'Muat Ulang Layer',
             onPressed: () {
-              ref.read(mapProvider.notifier).fetchLayerData();
+              ref.read(mapProvider.notifier).fetchLayerData(force: true);
             },
           ),
         ],
       ),
+    );
+  }
+
+  void _showPoiListBottomSheet(
+    BuildContext context,
+    List<GeoFeature> features,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.75,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.15),
+                blurRadius: 16,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Grab handle
+              SizedBox(height: 12.h),
+              Container(
+                width: 38.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+              ),
+              SizedBox(height: 14.h),
+
+              // Title Header
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Daftar Objek Wisata (${features.length} POI)',
+                          style: AppTextStyle.subtitle.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          'Pilih objek untuk fokus dan melihat detailnya di peta',
+                          style: AppTextStyle.caption.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () => Navigator.pop(ctx),
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(height: 20, color: AppColors.borderCard),
+
+              // POI List
+              Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
+                  itemCount: features.length,
+                  separatorBuilder: (_, __) => SizedBox(height: 8.h),
+                  itemBuilder: (context, index) {
+                    final feature = features[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundCard,
+                        borderRadius: BorderRadius.circular(14.r),
+                        border: Border.all(color: AppColors.borderCard),
+                      ),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 4.h,
+                        ),
+                        leading: Container(
+                          width: 32.w,
+                          height: 32.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor.withValues(
+                              alpha: 0.1,
+                            ),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '${index + 1}',
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          feature.nama,
+                          style: AppTextStyle.body.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (feature.alamat.isNotEmpty &&
+                                feature.alamat != '-') ...[
+                              SizedBox(height: 2.h),
+                              Text(
+                                feature.alamat,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyle.tiny.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                            if (feature.kecamatan.isNotEmpty) ...[
+                              SizedBox(height: 4.h),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6.w,
+                                  vertical: 2.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.backgroundMenu,
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                child: Text(
+                                  'Kec. ${feature.kecamatan}',
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    color: AppColors.primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 14.sp,
+                          color: AppColors.hintTextColor,
+                        ),
+                        onTap: () {
+                          Navigator.pop(ctx);
+                          ref.read(mapProvider.notifier).selectFeature(feature);
+                          _mapController?.animateCamera(
+                            CameraUpdate.newLatLngZoom(
+                              LatLng(feature.latitude, feature.longitude),
+                              16.5,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 16.h),
+            ],
+          ),
+        );
+      },
     );
   }
 }

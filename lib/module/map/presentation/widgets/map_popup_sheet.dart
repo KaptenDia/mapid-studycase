@@ -106,7 +106,7 @@ class MapPopupSheet extends StatelessWidget {
           const Divider(height: 1, color: AppColors.borderCard),
           SizedBox(height: 12.h),
 
-          // Alamat
+          // Address
           if (feature.alamat.isNotEmpty && feature.alamat != '-') ...[
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +133,7 @@ class MapPopupSheet extends StatelessWidget {
             SizedBox(height: 10.h),
           ],
 
-          // Wilayah Chips
+          // Region Chips
           Wrap(
             spacing: 6.w,
             runSpacing: 6.h,
